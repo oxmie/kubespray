@@ -146,7 +146,7 @@
 - name: cri-o | write registries configs
   template:
     src: registry.conf.j2
-    dest: "/etc/containers/registries.conf.d/10-{{ item.prefix | default(item.location) | regex_replace(':', '_') }}.conf"
+    dest: "/etc/containers/registries.conf.d/{{ item.prio | default('10') }}-{{ item.name | default(item.prefix) | default(item.location) | regex_replace(':', '_') }}.conf"
     mode: 0644
   loop: "{{ crio_registries }}"
   notify: restart crio
