@@ -123,7 +123,7 @@
     mode: 0644
   with_items:
     - option: driver
-      value: '"overlay"'
+      value: '"{{ crio_storage_driver }}"'
     - option: graphroot
       value: '"/var/lib/containers/storage"'
 
@@ -131,7 +131,7 @@
 - name: cri-o | set metacopy mount options correctly
   ini_file:
     dest: /etc/containers/storage.conf
-    section: storage.options.overlay
+    section: 'storage.options.{{ crio_storage_driver }}'
     option: mountopt
     value: '{{ ''"nodev"'' if ansible_kernel is version_compare(("4.18" if ansible_os_family == "RedHat" else "4.19"), "<") else ''"nodev,metacopy=on"'' }}'
     mode: 0644
